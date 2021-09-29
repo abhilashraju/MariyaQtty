@@ -15,6 +15,7 @@ limitations under the License.
 #include <server.hpp>
 #include <iostream>
 #include <fstream>
+#include <MqttServerConfig.h>
 int
 main(int argc, char* argv[])
 {

@@ -1,7 +1,8 @@
 
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
-project(Server VERSION 0.1.0 LANGUAGES CXX)
+project(MqttServer VERSION 0.1.0 LANGUAGES CXX)
 
+configure_file(MqttServerConfig.h.in  MqttServerConfig.h)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -24,9 +25,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER build)
 SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "C:/Users/rabhil/work/boost_1_69_0")
 SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "C:/Users/rabhil/work/boost_1_69_0/lib")
-# find_package(Boost REQUIRED COMPONENTS system)
-SET(Boost_INCLUDE_DIRS "C:/Users/rabhil/work/boost_1_69_0")
-SET(Boost_LIBRARY_DIRS "C:/Users/rabhil/work/boost_1_69_0/lib" "C:/Users/rabhil/work/boost_1_69_0/stage/lib")
+find_package(Boost  COMPONENTS system )
+if(Boost_NOT_FOUND)
+ SET(Boost_INCLUDE_DIRS "C:/Users/rabhil/work/boost_1_69_0")
+ SET(Boost_LIBRARY_DIRS "C:/Users/rabhil/work/boost_1_69_0/lib" "C:/Users/rabhil/work/boost_1_69_0/stage/lib")
+ endif()
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
@@ -40,7 +43,8 @@ add_subdirectory(src/core)
 
 add_executable(${PROJECT_NAME} examples/server.cpp )
 target_link_libraries(${PROJECT_NAME} PUBLIC mariaqtty)
-target_include_directories(${PROJECT_NAME} PUBLIC src/core)
+target_include_directories(${PROJECT_NAME} PUBLIC src/core 
+      PUBLIC ${PROJECT_BINARY_DIR})
 
 if(NOT WIN32)
   find_package(Threads)

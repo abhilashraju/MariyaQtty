@@ -1,0 +1,2 @@
+#define MAJOR_VERSION @MqttServer_VERSION_MAJOR
+#define MINOR_VERSION @MqttServer_VERSION_MINOR
